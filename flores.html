@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Para la bailarina más hermosa</title>
+  <style>
+    :root{--bg1:#fff6f7;--bg2:#fff0f3;--accent:#d6336c}
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));padding:20px}
+    .card{max-width:720px;width:100%;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);border-radius:18px;padding:28px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+    h1{font-size:1.25rem;margin:0 0 10px;color:#3b2430}
+    p.lead{margin:0 0 20px;font-size:1rem;color:#4b2b36}
+    .btn{display:inline-block;padding:14px 22px;font-size:1rem;border-radius:12px;border:none;background:linear-gradient(90deg,var(--accent),#e85b85);color:white;box-shadow:0 6px 18px rgba(214,51,108,0.28);cursor:pointer;touch-action:manipulation}
+    .btn:active{transform:translateY(1px)}
+    .sky{position:fixed;left:0;right:0;top:0;bottom:0;pointer-events:none;overflow:hidden;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px}
+    .rose{width:80px;height:90px}
+    .rose svg{width:100%;height:100%;display:block}
+    @media (max-width:420px){
+      h1{font-size:1.05rem}
+      .btn{width:100%;padding:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card" role="main">
+    <h1>Para la bailarina más hermosa que existe en el planeta</h1>
+    <p class="lead">(y sí, hablo de ti)</p>
+    <button id="showRoses" class="btn" aria-live="polite">Presiona</button>
+    <p id="hint" style="margin-top:14px;color:#6b4951;font-size:0.9rem">Presiona el botón y verás algo especial.</p>
+  </div>
+  <div class="sky" id="sky" aria-hidden="true"></div>
+
+  <script>
+    const btn = document.getElementById('showRoses');
+    const sky = document.getElementById('sky');
+    const card = document.getElementById('card');
+
+    function createRose(){
+      const id = Math.random().toString(36).slice(2,8);
+      const div = document.createElement('div');
+      div.className = 'rose';
+      div.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="petalGrad-${id}" cx="40%" cy="35%" r="70%">
+            <stop offset="0%" stop-color="#ff8fb3" />
+            <stop offset="55%" stop-color="#d6336c" />
+            <stop offset="100%" stop-color="#b22255" />
+          </radialGradient>
+          <linearGradient id="stemGrad-${id}" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#7fc06b" />
+            <stop offset="100%" stop-color="#2e7d32" />
+          </linearGradient>
+        </defs>
+        <g transform="translate(10,5)">
+          <path d="M50 20 C40 6, 20 8, 28 28 C22 36, 14 48, 28 56 C18 70, 36 82, 54 72 C66 80, 88 72, 84 56 C98 48, 90 34, 78 28 C86 10, 68 10, 50 20 Z" fill="url(#petalGrad-${id})" />
+          <path d="M50 30 C58 18, 72 20, 74 36 C84 40, 90 50, 80 60 C88 70, 76 78, 62 72 C54 82, 36 78, 34 66 C22 64, 26 46, 34 38 C36 28, 44 34, 50 30 Z" fill="#ff6fa2" opacity="0.9" />
+          <circle cx="48" cy="46" r="6" fill="#ffd0df" opacity="0.6" />
+        </g>
+        <g transform="translate(62,72)">
+          <path d="M-6 0 C-2 20, -2 40, 4 70" stroke="url(#stemGrad-${id})" stroke-width="6" stroke-linecap="round" fill="none" />
+          <path d="M6 18 C26 6, 34 30, 12 28 C24 40, 8 56, -6 44" fill="#3b8f46" opacity="0.95" transform="rotate(10 6 30)"/>
+          <path d="M-4 28 C-24 16, -34 40, -12 38 C-24 50, -8 66, 6 54" fill="#2f7c3a" opacity="0.95" transform="rotate(-8 -4 44)"/>
+        </g>
+      </svg>`;
+      sky.appendChild(div);
+    }
+
+    btn.addEventListener('click', ()=>{
+      card.remove();
+      for(let i=0;i<20;i++){
+        createRose();
+      }
+    });
+  </script>
+</body>
+</html>
